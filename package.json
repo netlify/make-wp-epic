@@ -1,6 +1,6 @@
 {
   "name": "make-wp-epic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Convert a Wordpress DB to a Victor Hugo site",
   "main": "index.js",
   "license": "MIT",
@@ -12,6 +12,7 @@
   "bin": {
     "make-wp-epic": "bin/index.js"
   },
+  "files": ["bin", "README.md", "LICENSE"],
   "dependencies": {
     "babel-cli": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.19.0",

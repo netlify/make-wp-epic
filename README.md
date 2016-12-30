@@ -50,5 +50,3 @@ those cases.
 
 We'll be preparing a ready made Victory Hugo theme that will work great out of the box with this content
 structure, so you can just run `make-wp-epic` and start hacking on the front-end for your new design!
-
-## License
