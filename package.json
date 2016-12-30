@@ -1,0 +1,22 @@
+{
+  "name": "make-wp-epic",
+  "version": "0.0.1",
+  "description": "Convert a Wordpress DB to a Victor Hugo site",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "babel -o bin/make-wp-epic.js src/index.js",
+    "prepublish": "yarn run compile"
+  },
+  "bin": {
+    "make-wp-epic": "bin/make-wp-epic.js"
+  },
+  "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-object-assign": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
+    "babel-preset-es2015": "^6.18.0",
+    "minimist": "^1.2.0"
+  }
+}
