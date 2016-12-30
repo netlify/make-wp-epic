@@ -1,12 +1,13 @@
 {
   "name": "make-wp-epic",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Convert a Wordpress DB to a Victor Hugo site",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "compile": "babel -d bin/ src/",
-    "prepublish": "yarn run compile"
+    "prepublish": "yarn run compile",
+    "test": "jest"
   },
   "bin": {
     "make-wp-epic": "bin/index.js"
@@ -23,5 +24,8 @@
     "mkdirp": "^0.5.1",
     "promise-mysql": "^3.0.0",
     "when": "^3.7.7"
+  },
+  "devDependencies": {
+    "jest": "^18.1.0"
   }
 }
