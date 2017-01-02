@@ -1,12 +1,14 @@
+// @flow
+import type {Options} from './types';
 import mysql from 'promise-mysql';
 
-export function connect(options) {
+export function connect(options: Options) {
   return mysql.createConnection(options.db).then((connection) => (
     Object.assign({}, options, {connection})
   ));
 }
 
-export function selectPosts(options) {
+export function selectPosts(options: Options) {
   return options.connection.query(
     `SELECT * FROM wp_posts
      WHERE post_type = 'post'
@@ -14,7 +16,7 @@ export function selectPosts(options) {
   ).then((rows) => Object.assign(options, {posts: rows}));
 }
 
-export function selectCategories(options) {
+export function selectCategories(options: Options) {
   return options.connection.query(
     `SELECT * FROM wp_term_taxonomy tax
      JOIN wp_terms terms
@@ -23,7 +25,7 @@ export function selectCategories(options) {
   ).then((rows) => Object.assign(options, {categories: rows.filter(r => !r.name.match(/^_/))}));
 }
 
-export function selectAuthors(options) {
+export function selectAuthors(options: Options) {
   return options.connection.query(
     `SELECT authors.* FROM wp_users authors
      JOIN wp_posts p ON p.post_author = authors.id
@@ -32,7 +34,7 @@ export function selectAuthors(options) {
   ).then((rows) => Object.assign(options, {authors: rows}));
 }
 
-export function postWithMetadata(options, post) {
+export function postWithMetadata(options: Options, post: Object) {
   return options.connection.query(
     `SELECT * FROM wp_posts p
      JOIN wp_postmeta m
@@ -61,11 +63,11 @@ export function postWithMetadata(options, post) {
   ));
 }
 
-export function categoryWithMetdata(options, category) {
+export function categoryWithMetdata(options: Options, category: Object) {
   return Promise.resolve(category);
 }
 
-export function authorWithMetadata(options, author) {
+export function authorWithMetadata(options: Options, author: Object) {
   return options.connection.query(
     `SELECT * FROM wp_usermeta WHERE user_id = ${author.ID}`
   ).then((rows) => Object.assign(author, rows.reduce((data, row) => (

@@ -1,10 +1,12 @@
+// @flow
+import type {Options} from './types';
 import path from 'path';
 import minimist from 'minimist';
 import inquirer from 'inquirer';
 
 const allowed = ['_', 'u', 'h', 'd', 'p'];
 
-const options = {
+const options: Object = {
   db: {
     user: 'root',
     password: null,
@@ -18,7 +20,7 @@ export default function getOptions() {
 
   if (argv._.length !== 1 || !argv.d) {
     return Promise.reject(
-      'Usage: make-wp-epic -d database [-u user] [-h host] path-to/my/victor-hugo'
+      'Usage: make-wp-epic -d database [-u user] [-h host] path-to/my/victor-hugo [custom-processors.js]'
     );
   }
 
@@ -39,8 +41,6 @@ export default function getOptions() {
     Promise.resolve({});
 
   return pw.then(({password}) => {
-    return Object.assign({}, options, {
-      db: Object.assign({}, options.db, {password})
-    });
+    return {...options, password};
   });
 }

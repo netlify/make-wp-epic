@@ -1,10 +1,12 @@
+// @flow
 import url from 'url';
 /* Aims to be identical to Hugo's urlize helper */
 
-export function urlize(string) {
+export function urlize(string: string) {
   const sanitized = makePathSanitized(string);
   const parsedURL = url.parse(sanitized);
 
+  // $FlowFixMe - see https://github.com/facebook/flow/issues/185
   return url.format(parsedURL);
 }
 
@@ -22,7 +24,7 @@ function unicodeSanitize(string) {
   for (let i=0; i < string.length; i++) {
     const r = runes[i];
     if (r == '%' && i+2 < string.length && string.substr(i+1, 2).match(/^[0-9a-f]+$/)) {
-      target = tartget.concat([r, runes[i+1], runes[i+2]]);
+      target = target.concat([r, runes[i+1], runes[i+2]]);
     } else if (r.match(/[\w .\/\\_#\+-]/u)) {
       target.push(r);
     }

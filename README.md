@@ -46,6 +46,66 @@ is because the tool was written with large Wordpress sites in mind. The original
 tool had more than thousand authors, and splitting them up in individual files makes a lot more sense in
 those cases.
 
+## Custom processors for advanced users
+
+Sometimes you might need to do extra transforms or database queries on the posts during the migration.
+
+For example, you might want to automatically convert all the HTML post bodies from Wordpress, to Markdown.
+
+To do this, you can supply an extra path to `make-wp-epic` for a module with your own processors. It can export any of the following functions:
+
+* `processPost(options, post)` will get called for each post during the migration
+* `processAuthor(options, author)` will get called for each author during the migration
+* `processCategory(options, category)` will get called for each category during the migration
+
+The options argument has the following structure:
+
+```
+type Post = {
+  title: string,
+  slug: string,
+  date: Date,
+  author: string,
+  description: string,
+  categories: Array<Category>,
+  body: string
+}
+
+type Category = {
+  title: string,
+  description: ?string
+}
+
+type Author = {
+  title: string,
+  first_name: string,
+  last_name: string,
+  description: string,
+  avatar: ?string
+  www: ?string,
+  social: Object
+}
+
+type options = {
+  connection: {query: (string) => Promise<row>},
+  posts: Array<Post>,
+  authors: Array<Author>,
+  categories: Array<Category>
+}
+```
+
+Each function
+
+For example, a converter to change all post bodies from HTML to Markdown could be written like this:
+
+```js
+var toMarkdown = require('to-markdown');
+
+exports.processPost = function(options, post) {
+  post.
+}
+```
+
 ## TODO
 
 We'll be preparing a ready made Victory Hugo theme that will work great out of the box with this content

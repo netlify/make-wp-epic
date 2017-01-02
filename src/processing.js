@@ -1,6 +1,7 @@
+// @flow
 import yaml from 'js-yaml';
 
-export function processPost(post) {
+export function processPost(post: Object) {
   const frontMatter = yaml.safeDump({
     title: post.post_title,
     slug: post.post_name,
@@ -12,7 +13,7 @@ export function processPost(post) {
   return `---\n${frontMatter}---\n\n${post.post_content}`;
 }
 
-export function processCategory(category) {
+export function processCategory(category: Object) {
   const yml =  yaml.safeDump({
     title: category.name,
     description: category.description || null
@@ -21,7 +22,7 @@ export function processCategory(category) {
 }
 
 const socialFields = ['twitter', 'facebook', 'googleplus'];
-export function processAuthor(author) {
+export function processAuthor(author: Object) {
   const yml = yaml.safeDump({
     title: author.display_name,
     first_name: author.first_name || null,
