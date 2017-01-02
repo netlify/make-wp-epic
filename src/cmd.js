@@ -36,7 +36,7 @@ function onError(err) {
 }
 
 type Processor = (Options, Object) => Promise<Post | Category | Author>;
-type Writer = (Options, Object) => Promise<Post | Category | Author>;
+type Writer = (Options, Post | Category | Author) => Promise<Post | Category | Author>;
 function processItems(key: string, processor: Processor, writer: Writer) {
   return (options) => {
     const fn = guard(guard.n(5), (item) => (

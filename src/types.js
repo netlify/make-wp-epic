@@ -16,8 +16,8 @@ export type Category = {
 
 export type Author = {
   title: string,
-  first_name: string,
-  last_name: string,
+  first_name: ?string,
+  last_name: ?string,
   description: string,
   avatar: ?string,
   www: ?string,
