@@ -12,13 +12,18 @@ const options: Object = {
     password: null,
     host: 'localhost',
     database: null
+  },
+  processors: {
+    post: (o, p) => p,
+    category: (o, c) => c,
+    author: (o, a) => a
   }
 };
 
 export default function getOptions() {
   const argv = minimist(process.argv.slice(2), {boolean: 'p'});
 
-  if (argv._.length !== 1 || !argv.d) {
+  if (argv._.length < 1 || argv._.length > 2 || !argv.d) {
     return Promise.reject(
       'Usage: make-wp-epic -d database [-u user] [-h host] path-to/my/victor-hugo [custom-processors.js]'
     );
@@ -35,6 +40,28 @@ export default function getOptions() {
   if (argv.u) { options.db.user = argv.u; }
   if (argv.h) { options.db.host = argv.h; }
   options.db.database = argv.d;
+
+  if (argv._.length === 2) {
+    const lib = path.resolve(argv._[1]);
+    console.log('Loading custom processors from ', lib);
+    try {
+      // $FlowFixMe -- we needa dynamic require here
+      var processors = require(lib);
+      console.log('processors loaded: ', processors);
+      [
+        ['post', 'processPost'],
+        ['author', 'processAuthor'],
+        ['category', 'processCategory']
+      ].forEach(([type, processor]) => {
+        if (processors[processor]) {
+          console.log('Enabling custom processor for ', type, ' processing');
+          options.processors[type] = processors[processor];
+        }
+      });
+    } catch (e) {
+      throw(`Failed to load custom processors: ${e.toString()}`);
+    }
+  }
 
   const pw = argv.p ?
     inquirer.prompt([{type: 'password', message: 'DB Password', name: 'password'}]) :

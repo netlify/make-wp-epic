@@ -17,37 +17,40 @@ export function setupFolders(options: Options) {
 
 const writeFile = nodefn.lift(fs.writeFile);
 
-function toFrontMatterwithBody(obj: Object) {
-  let body = '';
-  const frontMatter: Object = {};
+function without(obj: Object, ...keys: Array<string>) {
+  const clone: Object = {};
   for (const key in obj) {
-    if (key !== 'body') {
-      frontMatter[key] =  obj[key];
+    if (keys.indexOf(key) === -1) {
+      clone[key] = obj[key];
     }
   }
-  return `---\n${yaml.safeDump(frontMatter)}---\n\n${obj.body || ''}`;
+  return clone;
+}
+
+function toFrontMatterwithBody(obj: Object) {
+  return `---\n${yaml.safeDump(without(obj, 'body', 'fromDB'))}---\n\n${obj.body || ''}`;
 }
 
 function toYaml(obj: Object) {
-  return `---\n${yaml.safeDump(obj)}`;
+  return `---\n${yaml.safeDump(without(obj, 'fromDB'))}`;
 }
 
-export function writePost(options: Options, post: Object) {
-  const file = path.join(options.hugoPath, 'content', 'articles', generatePostSlug(post.post_date, post.post_name) + '.md');
+export function writePost(options: Options, post: Post) {
+  const file = path.join(options.hugoPath, 'content', 'articles', generatePostSlug(post.date, post.slug) + '.md');
   console.log('Writing post to: ', file);
-  return writeFile(file, toFrontMatterwithBody(processPost(post)));
+  return writeFile(file, toFrontMatterwithBody(post));
 }
 
-export function writeCategory(options: Options, category: Object) {
-  const file = path.join(options.hugoPath, 'data', 'categories', urlize(category.name) + '.yml');
+export function writeCategory(options: Options, category: Category) {
+  const file = path.join(options.hugoPath, 'data', 'categories', urlize(category.title) + '.yml');
   console.log('Writing category to: ', file);
-  return writeFile(file, toYaml(processCategory(category)));
+  return writeFile(file, toYaml(category));
 }
 
-export function writeAuthor(options: Options, author: Object) {
-  const file = path.join(options.hugoPath, 'data', 'authors', urlize(author.display_name) + '.yml');
+export function writeAuthor(options: Options, author: Author) {
+  const file = path.join(options.hugoPath, 'data', 'authors', urlize(author.title) + '.yml');
   console.log('Writing author to: ', file);
-  return writeFile(file, toYaml(processAuthor(author)));
+  return writeFile(file, toYaml(author));
 }
 
 function generatePostSlug(date: Date, slug: string) {

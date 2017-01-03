@@ -1,8 +1,8 @@
 // @flow
-import type {Post, Category, Author} from './types';
+import type {Options, Post, Category, Author} from './types';
 import yaml from 'js-yaml';
 
-export function processPost(post: Object) : Post {
+export function processPost(options: Options, post: Object) : Post {
   return {
     title: post.post_title,
     slug: post.post_name,
@@ -10,16 +10,17 @@ export function processPost(post: Object) : Post {
     author: post.author.display_name,
     description: post.post_excerpt,
     categories: post.categories,
-    body: post.post_content
+    body: post.post_content,
+    fromDB: post
   };
 }
 
-export function processCategory(category: Object) : Category {
-  return {title: category.name, description: category.description};
+export function processCategory(options: Options, category: Object) : Category {
+  return {title: category.name, description: category.description, fromDB: category};
 }
 
 const socialFields = ['twitter', 'facebook', 'googleplus'];
-export function processAuthor(author: Object) : Author {
+export function processAuthor(options: Options, author: Object) : Author {
   return {
     title: author.display_name,
     first_name: author.first_name || null,
@@ -27,6 +28,7 @@ export function processAuthor(author: Object) : Author {
     description: author.description || '',
     avatar: author.avatar || null,
     www: author.user_url || author.url || null,
-    social: socialFields.reduce((r, f) => author[f] ? Object.assign(r, {[f]: author[f]}) : r, {})
+    social: socialFields.reduce((r, f) => author[f] ? Object.assign(r, {[f]: author[f]}) : r, {}),
+    fromDB: author
   };
 }
