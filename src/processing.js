@@ -1,13 +1,14 @@
 // @flow
 import type {Options, Post, Category, Author} from './types';
 import yaml from 'js-yaml';
+import {urlize} from './urlize';
 
 export function processPost(options: Options, post: Object) : Post {
   return {
     title: post.post_title,
     slug: post.post_name,
     date: post.post_date,
-    author: post.author.display_name,
+    author: post.author.login,
     description: post.post_excerpt,
     categories: post.categories,
     body: post.post_content,
@@ -16,13 +17,14 @@ export function processPost(options: Options, post: Object) : Post {
 }
 
 export function processCategory(options: Options, category: Object) : Category {
-  return {title: category.name, description: category.description, fromDB: category};
+  return {title: category.name, slug: urlize(category.name), description: category.description, fromDB: category};
 }
 
 const socialFields = ['twitter', 'facebook', 'googleplus'];
 export function processAuthor(options: Options, author: Object) : Author {
   return {
     title: author.display_name,
+    slug: author.login,
     first_name: author.first_name || null,
     last_name: author.last_name || null,
     description: author.description || '',

@@ -5,7 +5,6 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import mkdirp from 'mkdirp';
 import nodefn from 'when/node';
-import {urlize} from './urlize';
 import {processPost, processCategory, processAuthor} from './processing';
 
 export function setupFolders(options: Options) {
@@ -42,13 +41,13 @@ export function writePost(options: Options, post: Post) {
 }
 
 export function writeCategory(options: Options, category: Category) {
-  const file = path.join(options.hugoPath, 'data', 'categories', urlize(category.title) + '.yml');
+  const file = path.join(options.hugoPath, 'data', 'categories', category.slug + '.yml');
   console.log('Writing category to: ', file);
   return writeFile(file, toYaml(category));
 }
 
 export function writeAuthor(options: Options, author: Author) {
-  const file = path.join(options.hugoPath, 'data', 'authors', urlize(author.title) + '.yml');
+  const file = path.join(options.hugoPath, 'data', 'authors', author.slug + '.yml');
   console.log('Writing author to: ', file);
   return writeFile(file, toYaml(author));
 }

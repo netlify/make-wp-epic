@@ -12,12 +12,14 @@ export type Post = {
 
 export type Category = {
   title: string,
+  slug: string,
   description: string,
   fromDB: Object
 };
 
 export type Author = {
   title: string,
+  slug: string,
   first_name: ?string,
   last_name: ?string,
   description: string,
