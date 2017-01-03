@@ -68,12 +68,14 @@ type Post = {
   author: string,
   description: string,
   categories: Array<Category>,
-  body: string
+  body: string,
+  fromDB: Object // The raw data from the DB queries
 }
 
 type Category = {
   title: string,
-  description: ?string
+  description: ?string,
+  fromDB: Object
 }
 
 type Author = {
@@ -83,7 +85,8 @@ type Author = {
   description: string,
   avatar: ?string
   www: ?string,
-  social: Object
+  social: Object,
+  fromDB: Object
 }
 
 type options = {
@@ -102,7 +105,15 @@ For example, a converter to change all post bodies from HTML to Markdown could b
 var toMarkdown = require('to-markdown');
 
 exports.processPost = function(options, post) {
-  post.
+  var obj = {};
+  for (var key in obj) {
+    if (key === 'body') {
+      obj.body = toMarkdown(post[key]);
+    } else {
+      obj[key] = post[key];
+    }
+  }
+  return obj;
 }
 ```
 
