@@ -1,6 +1,6 @@
 {
   "name": "make-wp-epic",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Convert a Wordpress DB to a Victor Hugo site",
   "main": "index.js",
   "license": "MIT",

@@ -8,7 +8,7 @@ export function processPost(options: Options, post: Object) : Post {
     title: post.post_title,
     slug: post.post_name,
     date: post.post_date,
-    author: post.author.user_login,
+    author: post.author.user_nicename,
     description: post.post_excerpt,
     categories: post.categories,
     body: post.post_content,
@@ -24,7 +24,7 @@ const socialFields = ['twitter', 'facebook', 'googleplus'];
 export function processAuthor(options: Options, author: Object) : Author {
   return {
     title: author.display_name,
-    slug: author.user_login,
+    slug: author.user_nicename,
     first_name: author.first_name || null,
     last_name: author.last_name || null,
     description: author.description || '',
