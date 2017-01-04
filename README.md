@@ -62,6 +62,7 @@ The options argument has the following structure:
 
 ```
 type Post = {
+  slug: string,
   title: string,
   slug: string,
   date: Date,
@@ -73,6 +74,7 @@ type Post = {
 }
 
 type Category = {
+  slug: string,
   title: string,
   description: ?string,
   fromDB: Object
@@ -80,10 +82,11 @@ type Category = {
 
 type Author = {
   title: string,
+  slug: string,
+  email: string,
   first_name: string,
   last_name: string,
   description: string,
-  avatar: ?string
   www: ?string,
   social: Object,
   fromDB: Object

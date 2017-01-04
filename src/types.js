@@ -20,10 +20,10 @@ export type Category = {
 export type Author = {
   title: string,
   slug: string,
+  email: string,
   first_name: ?string,
   last_name: ?string,
   description: string,
-  avatar: ?string,
   www: ?string,
   social: Object,
   fromDB: Object

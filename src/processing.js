@@ -25,10 +25,10 @@ export function processAuthor(options: Options, author: Object) : Author {
   return {
     title: author.display_name,
     slug: author.user_nicename,
+    email: author.user_email,
     first_name: author.first_name || null,
     last_name: author.last_name || null,
     description: author.description || '',
-    avatar: author.avatar || null,
     www: author.user_url || author.url || null,
     social: socialFields.reduce((r, f) => author[f] ? Object.assign(r, {[f]: author[f]}) : r, {}),
     fromDB: author
