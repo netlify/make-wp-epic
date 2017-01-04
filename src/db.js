@@ -36,13 +36,13 @@ export function selectAuthors(options: Options) {
 
 export function postWithMetadata(options: Options, post: Object) {
   return options.connection.query(
-    `SELECT * FROM wp_posts p
+    `SELECT p.guid FROM wp_posts p
      JOIN wp_postmeta m
      ON m.meta_key = '_thumbnail_id'
-     AND m.meta_value = p.id
-     WHERE p.id = ${post.ID}`
+     AND m.post_id = ${post.ID}
+     AND m.meta_value = p.ID`
   )
-  .then((rows) => Object.assign(post, {thumbnail: rows[0]}))
+  .then((rows) => Object.assign(post, {thumbnail: rows[0] && rows[0].guid}))
   .then((post) => (
     options.connection.query(
       `SELECT * FROM wp_users WHERE id = ${post.post_author}`

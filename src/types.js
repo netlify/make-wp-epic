@@ -4,6 +4,7 @@ export type Post = {
   slug: string,
   date: Date,
   author: string,
+  image: ?string,
   description: string,
   categories: Array<Category>,
   body: string,

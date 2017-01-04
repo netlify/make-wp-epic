@@ -7,6 +7,7 @@ export function processPost(options: Options, post: Object) : Post {
   return {
     title: post.post_title,
     slug: post.post_name,
+    image: post.thumbnail || null,
     date: post.post_date,
     author: post.author.user_nicename,
     description: post.post_excerpt,
