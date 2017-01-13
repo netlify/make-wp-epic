@@ -68,6 +68,6 @@ export default function getOptions() {
     Promise.resolve({});
 
   return pw.then(({password}) => {
-    return {...options, password};
+    return {...options, db: {...options.db, password}};
   });
 }
