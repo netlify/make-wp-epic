@@ -5,7 +5,7 @@ import {urlize} from './urlize';
 
 export function processPost(options: Options, post: Object) : Post {
   return {
-    title: post.post_title,
+    title: (post.post_title || '').replace(/\&amp;/g, '&'),
     slug: post.post_name,
     image: post.thumbnail || null,
     date: post.post_date,
@@ -24,9 +24,9 @@ export function processCategory(options: Options, category: Object) : Category {
 const socialFields = ['twitter', 'facebook', 'googleplus'];
 export function processAuthor(options: Options, author: Object) : Author {
   return {
-    title: author.display_name,
+    title: (author.display_name || '').replace(/\&amp;/g, '&'),
     slug: author.user_nicename,
-    email: author.user_email,
+    email: (author.user_email || '').toLowerCase(),
     first_name: author.first_name || null,
     last_name: author.last_name || null,
     description: author.description || '',
