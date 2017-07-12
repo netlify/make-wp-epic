@@ -43,7 +43,8 @@ export type Options = {
     user: string,
     password: ?string,
     host: string,
-    database: string
+    database: string,
+    prefix: string
   },
   hugoPath: string,
   connection: MySQLConnection,

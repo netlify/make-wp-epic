@@ -35,6 +35,7 @@ function toYaml(obj: Object) {
 }
 
 export function writePost(options: Options, post: Post) {
+  console.log("post date: ",post.date);
   const file = path.join(options.hugoPath, 'content', 'articles', generatePostSlug(post.date, post.slug) + '.md');
   console.log('Writing post to: ', file);
   return writeFile(file, toFrontMatterwithBody(post));
@@ -53,5 +54,7 @@ export function writeAuthor(options: Options, author: Author) {
 }
 
 function generatePostSlug(date: Date, slug: string) {
-  return `${date.toISOString().replace(/T.+$/,'')}-${slug}`;
+  // let postDate = new Date(date);
+  // return `${postDate.toISOString().replace(/T.+$/,'')}-${slug}`;
+  return `${slug}`;
 }
