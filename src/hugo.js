@@ -54,7 +54,5 @@ export function writeAuthor(options: Options, author: Author) {
 }
 
 function generatePostSlug(date: Date, slug: string) {
-  // let postDate = new Date(date);
-  // return `${postDate.toISOString().replace(/T.+$/,'')}-${slug}`;
-  return `${slug}`;
+  return `${date.toISOString().replace(/T.+$/,'')}-${slug}`;
 }
