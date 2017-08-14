@@ -16,7 +16,8 @@ const options: Object = {
   processors: {
     post: (o, p) => p,
     category: (o, c) => c,
-    author: (o, a) => a
+    author: (o, a) => a,
+    page: (o, p) => p
   }
 };
 
@@ -51,7 +52,8 @@ export default function getOptions() {
       [
         ['post', 'processPost'],
         ['author', 'processAuthor'],
-        ['category', 'processCategory']
+        ['category', 'processCategory'],
+        ['page', 'processPage']
       ].forEach(([type, processor]) => {
         if (processors[processor]) {
           console.log('Enabling custom processor for ', type, ' processing');
