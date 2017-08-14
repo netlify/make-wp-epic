@@ -6,7 +6,6 @@ export function urlize(string: string) {
   const sanitized = makePathSanitized(string);
   const parsedURL = url.parse(sanitized);
 
-  // $FlowFixMe - see https://github.com/facebook/flow/issues/185
   return url.format(parsedURL);
 }
 

@@ -11,6 +11,18 @@ export type Post = {
   fromDB: Object
 };
 
+export type Page = {
+  title: string,
+  slug: string,
+  date: Date,
+  author: string,
+  image: ?string,
+  description: string,
+  categories: Array<Category>,
+  body: string,
+  fromDB: Object
+};
+
 export type Category = {
   title: string,
   slug: string,
@@ -33,6 +45,7 @@ export type Author = {
 export type PostProcessor = (Options, Post) => (Post | Promise<Post>);
 export type CategoryProcessor = (Options, Category) => (Category | Promise<Category>);
 export type AuthorProcessor = (Options, Author) => (Author | Promise<Author>);
+export type PageProcessor = (Options, Page) => (Page | Promise<Page>);
 
 export type MySQLConnection = {
   query: (string) => Promise<Row>
@@ -49,10 +62,12 @@ export type Options = {
   connection: MySQLConnection,
   posts: Array<Post>,
   authors: Array<Author>,
+  pages: Array<Page>,
   categories: Array<Category>,
   processors: {
     post: PostProcessor,
     category: CategoryProcessor,
-    author: AuthorProcessor
+    author: AuthorProcessor,
+    page: PageProcessor
   }
 };

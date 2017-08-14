@@ -1,5 +1,5 @@
 // @flow
-import type {Options, Post, Category, Author} from './types';
+import type {Options, Post, Page, Category, Author} from './types';
 import path from 'path';
 import fs from 'fs';
 import yaml from 'js-yaml';
@@ -38,6 +38,12 @@ export function writePost(options: Options, post: Post) {
   const file = path.join(options.hugoPath, 'content', 'articles', generatePostSlug(post.date, post.slug) + '.md');
   console.log('Writing post to: ', file);
   return writeFile(file, toFrontMatterwithBody(post));
+}
+
+export function writePage(options: Options, page: Page) {
+  const file = path.join(options.hugoPath, 'content', 'content-pages', page.slug + '.md');
+  console.log('Writing post to: ', file);
+  return writeFile(file, toFrontMatterwithBody(page));
 }
 
 export function writeCategory(options: Options, category: Category) {

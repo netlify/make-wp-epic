@@ -1,5 +1,5 @@
 // @flow
-import type {Options, Post, Category, Author} from './types';
+import type {Options, Post, Page, Category, Author} from './types';
 import yaml from 'js-yaml';
 import {urlize} from './urlize';
 
@@ -14,6 +14,20 @@ export function processPost(options: Options, post: Object) : Post {
     categories: post.categories,
     body: post.post_content,
     fromDB: post
+  };
+}
+
+export function processPage(options: Options, page: Object) : Page {
+  return {
+    title: (page.post_title || '').replace(/\&amp;/g, '&'),
+    slug: page.post_name,
+    image: page.thumbnail || null,
+    date: page.post_date,
+    author: page.author.user_nicename,
+    description: page.post_excerpt,
+    categories: page.categories,
+    body: page.post_content,
+    fromDB: page
   };
 }
 

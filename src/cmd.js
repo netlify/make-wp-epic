@@ -5,13 +5,14 @@ import {all, map} from 'when';
 import pipeline from 'when/pipeline';
 import guard from 'when/guard';
 import getOptions from './options';
-import {setupFolders, writePost, writeCategory, writeAuthor} from './hugo';
+import {setupFolders, writePost, writeCategory, writeAuthor, writePage} from './hugo';
 import {connect,
+  selectPages, pageWithMetadata,
   selectPosts, postWithMetadata,
   selectCategories, categoryWithMetdata,
   selectAuthors, authorWithMetadata
 } from './db';
-import {processPost, processCategory, processAuthor} from './processing';
+import {processPost, processPage, processCategory, processAuthor} from './processing';
 
 let db;
 
@@ -21,9 +22,11 @@ getOptions()
   .then(selectPosts)
   .then(selectCategories)
   .then(selectAuthors)
+  .then(selectPages)
   .then(processItems('posts'))
   .then(processItems('categories'))
   .then(processItems('authors'))
+  .then(processItems('pages'))
   .then(() => {
     console.log('Done...');
     process.exit(0);
@@ -36,15 +39,16 @@ function onError(err) {
   process.exit(1);
 }
 
-type Collection = 'posts' | 'categories' | 'authors';
+type Collection = 'posts' | 'categories' | 'authors' | 'pages';
 type Entry = Post | Category | Author;
 type Processor = (Options, Object) => Object
-type Procs = {posts: Array<Processor>, categories: Array<Processor>, authors: Array<Processor>};
+type Procs = {posts: Array<Processor>, categories: Array<Processor>, authors: Array<Processor>, pages: Array<Processor>};
 function getPipeline(key: Collection, options) {
   const fns: Procs = {
     posts: [postWithMetadata, processPost, options.processors.post, writePost],
     categories: [categoryWithMetdata, processCategory, options.processors.category, writeCategory],
-    authors: [authorWithMetadata, processAuthor, options.processors.author, writeAuthor]
+    authors: [authorWithMetadata, processAuthor, options.processors.author, writeAuthor],
+    pages: [pageWithMetadata, processPage, options.processors.page, writePage]
   };
 
   return fns[key].map((fn) => fn.bind(fn, options));

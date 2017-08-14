@@ -16,6 +16,14 @@ export function selectPosts(options: Options) {
   ).then((rows) => Object.assign(options, {posts: rows}));
 }
 
+export function selectPages(options: Options) {
+  return options.connection.query(
+    `SELECT * FROM wp_posts
+     WHERE post_type = 'page'
+     AND post_status = 'publish'`
+  ).then((rows) => Object.assign(options, {posts: rows}));
+}
+
 export function selectCategories(options: Options) {
   return options.connection.query(
     `SELECT * FROM wp_term_taxonomy tax
@@ -62,6 +70,8 @@ export function postWithMetadata(options: Options, post: Object) {
     ))
   ));
 }
+
+export const pageWithMetadata = postWithMetadata;
 
 export function categoryWithMetdata(options: Options, category: Object) {
   return Promise.resolve(category);
