@@ -21,7 +21,7 @@ export function selectPages(options: Options) {
     `SELECT * FROM wp_posts
      WHERE post_type = 'page'
      AND post_status = 'publish'`
-  ).then((rows) => Object.assign(options, {posts: rows}));
+  ).then((rows) => Object.assign(options, {pages: rows}));
 }
 
 export function selectCategories(options: Options) {

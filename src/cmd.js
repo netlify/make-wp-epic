@@ -1,5 +1,5 @@
 // @flow
-import type {Options, Post, Category, Author} from './types';
+import type {Options, Post, Page, Category, Author} from './types';
 import path from 'path';
 import {all, map} from 'when';
 import pipeline from 'when/pipeline';
@@ -40,7 +40,7 @@ function onError(err) {
 }
 
 type Collection = 'posts' | 'categories' | 'authors' | 'pages';
-type Entry = Post | Category | Author;
+type Entry = Post | Category | Author | Page;
 type Processor = (Options, Object) => Object
 type Procs = {posts: Array<Processor>, categories: Array<Processor>, authors: Array<Processor>, pages: Array<Processor>};
 function getPipeline(key: Collection, options) {
