@@ -4,14 +4,15 @@ import path from 'path';
 import minimist from 'minimist';
 import inquirer from 'inquirer';
 
-const allowed = ['_', 'u', 'h', 'd', 'p'];
+const allowed = ['_', 'u', 'h', 'd', 'p', 'x'];
 
 const options: Object = {
   db: {
     user: 'root',
     password: null,
     host: 'localhost',
-    database: null
+    database: null,
+    prefix: 'wp_'
   },
   processors: {
     post: (o, p) => p,
@@ -26,7 +27,7 @@ export default function getOptions() {
 
   if (argv._.length < 1 || argv._.length > 2 || !argv.d) {
     return Promise.reject(
-      'Usage: make-wp-epic -d database [-u user] [-h host] path-to/my/victor-hugo [custom-processors.js]'
+      'Usage: make-wp-epic -d database [-u user] [-h host] [-x prefix] path-to/my/victor-hugo [custom-processors.js]'
     );
   }
 
@@ -38,6 +39,7 @@ export default function getOptions() {
 
   options.hugoPath = path.join(argv._[0], 'site');
 
+  if (argv.x) { options.db.prefix = argv.x; }
   if (argv.u) { options.db.user = argv.u; }
   if (argv.h) { options.db.host = argv.h; }
   options.db.database = argv.d;
